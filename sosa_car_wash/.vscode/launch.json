@@ -1,0 +1,40 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Sosa Car Wash · 1) Configurar base de datos (primera vez)",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/configurar_bd.py",
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal"
+    },
+    {
+      "name": "Sosa Car Wash · 2) Aplicación de escritorio",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/main.py",
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal"
+    },
+    {
+      "name": "Sosa Car Wash · Solo servidor web",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/web/server.py",
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal"
+    },
+    {
+      "name": "Sosa Car Wash · Crear BD + datos de ejemplo",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/setup_db.py",
+      "args": [
+        "--demo"
+      ],
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal"
+    }
+  ]
+}

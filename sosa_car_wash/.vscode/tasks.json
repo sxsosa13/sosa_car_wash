@@ -1,0 +1,23 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Instalar dependencias",
+      "type": "shell",
+      "command": "pip install -r requirements.txt",
+      "problemMatcher": []
+    },
+    {
+      "label": "Crear base de datos y datos de ejemplo",
+      "type": "shell",
+      "command": "python setup_db.py --demo",
+      "problemMatcher": []
+    },
+    {
+      "label": "Configurar base de datos (asistente)",
+      "type": "shell",
+      "command": "python configurar_bd.py",
+      "problemMatcher": []
+    }
+  ]
+}

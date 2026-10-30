@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sosa Car Wash · Lavadero de autos y motos</title>
+<meta name="description" content="Reserve en línea el lavado de su auto o moto y siga el estado de su turno.">
+<style>
+  :root { --az9:#0a2540; --az8:#0b2a57; --az7:#0d47a1; --az6:#1565c0; --az5:#1e88e5; --ce4:#4fc3f7; --ce2:#b3e5fc; --ce1:#e3f2fd; --bl:#fff; --tx:#0b2a57; --gr:#5b7186; }
+  * { box-sizing:border-box; }
+  html { scroll-behavior:smooth; scroll-padding-top:76px; }
+  body { margin:0; font-family:system-ui,"Segoe UI",Arial,sans-serif; color:var(--tx); background:var(--ce1); line-height:1.5; }
+  a { color:inherit; text-decoration:none; }
+  .wrap { max-width:1080px; margin:0 auto; padding:0 20px; }
+
+  /* ---- barra superior ---- */
+  nav { position:sticky; top:0; z-index:50; background:rgba(10,37,64,.96); backdrop-filter:blur(8px); }
+  nav .wrap { display:flex; align-items:center; justify-content:space-between; height:64px; }
+  .marca { display:flex; align-items:center; gap:10px; color:#fff; font-weight:800; letter-spacing:.5px; font-size:1.1rem; }
+  .gota { width:36px; height:36px; border-radius:50%; background:var(--ce4); display:grid; place-items:center; border:2px solid #fff; }
+  .gota svg { width:18px; height:18px; }
+  .menu { display:flex; gap:22px; align-items:center; }
+  .menu a { color:var(--ce2); font-weight:600; font-size:.95rem; }
+  .menu a:hover { color:#fff; }
+  .menu a.btn-claro, .menu a.btn-claro:hover { color:var(--az6); }
+  .btn { display:inline-block; border:0; cursor:pointer; font:inherit; font-weight:700; padding:12px 24px; border-radius:999px; transition:.2s; }
+  .btn-claro { background:#fff; color:var(--az6); }
+  .btn-claro:hover { transform:translateY(-2px); box-shadow:0 8px 20px rgba(0,0,0,.2); }
+  .btn-azul { background:linear-gradient(135deg,var(--az6),var(--az5)); color:#fff; }
+  .btn-azul:hover { transform:translateY(-2px); box-shadow:0 8px 20px rgba(21,101,192,.35); }
+  .btn-borde { border:2px solid rgba(255,255,255,.7); color:#fff; background:transparent; }
+  .btn-borde:hover { background:rgba(255,255,255,.12); }
+  .btn:disabled { opacity:.6; cursor:wait; transform:none; }
+  @media (max-width:760px){ .menu a:not(.btn) { display:none; } }
+
+  /* ---- portada ---- */
+  .hero { position:relative; overflow:hidden; color:#fff; padding:70px 0 130px; background:linear-gradient(135deg,var(--az9) 0%,var(--az7) 48%,var(--ce4) 100%); }
+  .hero .wrap { display:grid; grid-template-columns:1.1fr .9fr; gap:30px; align-items:center; position:relative; z-index:2; }
+  .etiqueta { display:inline-block; background:rgba(255,255,255,.16); border:1px solid rgba(255,255,255,.35); padding:6px 14px; border-radius:999px; font-size:.85rem; font-weight:600; }
+  .hero h1 { font-size:clamp(2.1rem,5vw,3.4rem); line-height:1.1; margin:16px 0 14px; }
+  .hero h1 span { color:var(--ce2); }
+  .hero p { font-size:1.12rem; color:#dbefff; max-width:520px; }
+  .acciones { display:flex; gap:12px; flex-wrap:wrap; margin-top:26px; }
+  .escena { position:relative; }
+  .escena svg { width:100%; filter:drop-shadow(0 18px 30px rgba(0,0,0,.3)); animation:flota 5s ease-in-out infinite; }
+  @keyframes flota { 50% { transform:translateY(-10px); } }
+  .burbuja { position:absolute; border-radius:50%; background:rgba(255,255,255,.35); border:1px solid rgba(255,255,255,.6); animation:sube 7s linear infinite; }
+  @keyframes sube { from { transform:translateY(40px); opacity:0; } 20% { opacity:1; } to { transform:translateY(-260px); opacity:0; } }
+  .olas { position:absolute; bottom:-1px; left:0; width:100%; height:80px; z-index:1; }
+  @media (max-width:860px){ .hero .wrap { grid-template-columns:1fr; } .escena { max-width:420px; margin:auto; } }
+  @media (prefers-reduced-motion:reduce){ .escena svg,.burbuja { animation:none; } html { scroll-behavior:auto; } }
+
+  /* ---- bloques ---- */
+  section { padding:60px 0; }
+  .titulo { text-align:center; margin-bottom:34px; }
+  .titulo small { color:var(--az5); font-weight:800; letter-spacing:2px; text-transform:uppercase; font-size:.78rem; }
+  .titulo h2 { margin:6px 0 8px; font-size:clamp(1.6rem,3.4vw,2.2rem); color:var(--az8); }
+  .titulo p { margin:0 auto; max-width:560px; color:var(--gr); }
+  .tarjeta { background:#fff; border-radius:18px; padding:24px; box-shadow:0 6px 24px rgba(21,101,192,.12); }
+
+  .ventajas { margin-top:-70px; position:relative; z-index:5; padding:0; }
+  .ventajas .grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; }
+  .ventaja { display:flex; gap:14px; align-items:center; }
+  .ico { flex:none; width:50px; height:50px; border-radius:14px; background:var(--ce1); display:grid; place-items:center; font-size:1.5rem; }
+  .ventaja b { display:block; }
+  .ventaja span { color:var(--gr); font-size:.9rem; }
+  @media (max-width:760px){ .ventajas .grid { grid-template-columns:1fr; } }
+
+  .pestanas { display:flex; justify-content:center; gap:10px; margin-bottom:24px; }
+  .pestanas button { border:2px solid var(--ce2); background:#fff; color:var(--az6); font:inherit; font-weight:700; padding:10px 22px; border-radius:999px; cursor:pointer; }
+  .pestanas button.activo { background:var(--az6); border-color:var(--az6); color:#fff; }
+  .servicios { display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:18px; }
+  .servicio { position:relative; transition:.2s; border-top:5px solid var(--ce4); }
+  .servicio:hover { transform:translateY(-6px); box-shadow:0 14px 34px rgba(21,101,192,.22); }
+  .servicio .ico { margin-bottom:12px; }
+  .servicio h3 { margin:0 0 4px; font-size:1.08rem; color:var(--az8); }
+  .servicio .min { color:var(--gr); font-size:.88rem; }
+  .servicio .precio { margin:14px 0; font-size:1.55rem; font-weight:800; color:var(--az6); }
+  .servicio .btn { width:100%; padding:10px; text-align:center; }
+
+  .pasos { display:grid; grid-template-columns:repeat(3,1fr); gap:18px; counter-reset:p; }
+  .paso { text-align:center; }
+  .paso::before { counter-increment:p; content:counter(p); display:grid; place-items:center; width:46px; height:46px; margin:0 auto 12px; border-radius:50%; background:linear-gradient(135deg,var(--az6),var(--ce4)); color:#fff; font-weight:800; font-size:1.2rem; }
+  .paso h3 { margin:0 0 6px; color:var(--az8); }
+  .paso p { margin:0; color:var(--gr); font-size:.93rem; }
+  @media (max-width:760px){ .pasos { grid-template-columns:1fr; } }
+
+  .seg { display:grid; grid-template-columns:1fr 1fr; gap:22px; align-items:start; max-width:900px; margin:auto; }
+  @media (max-width:860px){ .seg { grid-template-columns:1fr; } }
+  label { display:block; font-size:.85rem; font-weight:700; margin:14px 0 5px; }
+  input,select,textarea { width:100%; padding:11px 12px; border:2px solid var(--ce2); border-radius:10px; font:inherit; background:#fff; color:var(--tx); }
+  input:focus,select:focus,textarea:focus { outline:none; border-color:var(--az5); box-shadow:0 0 0 3px rgba(30,136,229,.18); }
+  .tipo { display:flex; gap:10px; }
+  .tipo button { flex:1; padding:12px; border:2px solid var(--ce2); background:#fff; border-radius:12px; font:inherit; font-weight:700; cursor:pointer; color:var(--az6); }
+  .tipo button.activo { border-color:var(--az6); background:var(--ce1); }
+  .fila { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+  .aviso { margin-top:14px; padding:14px; border-radius:12px; display:none; font-size:.95rem; }
+  .aviso.ok { display:block; background:#e0f2fe; border:1px solid var(--ce4); color:var(--az8); }
+  .aviso.error { display:block; background:#fdecec; border:1px solid #f3b4b4; color:#9b1c1c; }
+  .turno { font-size:2.2rem; font-weight:800; color:var(--az6); line-height:1.1; }
+
+  .estado { display:inline-block; padding:5px 14px; border-radius:999px; font-weight:800; font-size:.85rem; background:var(--ce2); color:var(--az8); }
+  .estado.fin { background:#d6f5e3; color:#14633a; } .estado.canc { background:#fdecec; color:#9b1c1c; }
+  .linea { display:flex; justify-content:space-between; padding:8px 0; border-bottom:1px dashed var(--ce2); font-size:.95rem; }
+  .linea b { text-align:right; }
+  .progreso { display:flex; justify-content:space-between; margin:22px 0 6px; position:relative; }
+  .progreso::before { content:""; position:absolute; top:15px; left:12%; right:12%; height:4px; background:var(--ce2); }
+  .hito { position:relative; z-index:1; text-align:center; width:33%; font-size:.82rem; color:var(--gr); font-weight:600; }
+  .hito i { display:grid; place-items:center; width:34px; height:34px; margin:0 auto 6px; border-radius:50%; background:#fff; border:3px solid var(--ce2); font-style:normal; }
+  .hito.on { color:var(--az6); } .hito.on i { background:var(--az6); border-color:var(--az6); color:#fff; }
+
+  .contacto { background:linear-gradient(135deg,var(--az9),var(--az7)); color:#fff; }
+  .contacto .titulo h2 { color:#fff; } .contacto .titulo p { color:var(--ce2); }
+  .contactos { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:16px; }
+  .dato { background:rgba(255,255,255,.1); border:1px solid rgba(255,255,255,.25); border-radius:16px; padding:20px; transition:.2s; }
+  a.dato:hover { background:rgba(255,255,255,.18); transform:translateY(-4px); }
+  .dato .ico { background:rgba(255,255,255,.15); margin-bottom:10px; }
+  .dato small { color:var(--ce2); display:block; font-weight:700; letter-spacing:1px; text-transform:uppercase; font-size:.72rem; }
+  .dato b { font-size:1.05rem; word-break:break-word; }
+  footer { background:var(--az9); color:var(--ce2); text-align:center; padding:22px; font-size:.88rem; }
+</style>
+</head>
+<body>
+
+<nav><div class="wrap">
+  <a href="#inicio" class="marca"><span class="gota"><svg viewBox="0 0 24 24"><path d="M12 2C12 2 5 10.5 5 15a7 7 0 0 0 14 0C19 10.5 12 2 12 2z" fill="#fff"/></svg></span><span data-nombre>Sosa Car Wash</span></a>
+  <div class="menu">
+    <a href="#servicios">Servicios</a><a href="#seguimiento">Mi reserva</a><a href="#contacto">Contacto</a>
+    <a href="#reservar" class="btn btn-claro">Reservar</a>
+  </div>
+</div></nav>
+
+<header class="hero" id="inicio">
+  <div class="wrap">
+    <div>
+      <span class="etiqueta">💧 Lavadero de autos y motos</span>
+      <h1>Su vehículo, <span>como nuevo</span> en cada visita</h1>
+      <p>Reserve su turno en línea en menos de un minuto y siga el estado de su lavado desde donde esté.</p>
+      <div class="acciones">
+        <a href="#reservar" class="btn btn-claro">Reservar ahora</a>
+        <a href="#servicios" class="btn btn-borde">Ver servicios</a>
+      </div>
+    </div>
+    <div class="escena">
+      <span class="burbuja" style="width:22px;height:22px;left:8%;bottom:20%"></span>
+      <span class="burbuja" style="width:14px;height:14px;left:30%;bottom:8%;animation-delay:1.5s"></span>
+      <span class="burbuja" style="width:28px;height:28px;left:62%;bottom:14%;animation-delay:3s"></span>
+      <span class="burbuja" style="width:16px;height:16px;left:84%;bottom:24%;animation-delay:4.4s"></span>
+      <span class="burbuja" style="width:10px;height:10px;left:48%;bottom:4%;animation-delay:2.2s"></span>
+      <svg viewBox="0 0 420 230" role="img" aria-label="Auto limpio">
+        <ellipse cx="210" cy="212" rx="170" ry="9" fill="rgba(0,0,0,.18)"/>
+        <path d="M28 150C28 124 52 116 84 112L124 72C134 62 149 57 164 57H256C273 57 287 63 298 76L332 112C366 116 392 124 392 150V168H28Z" fill="#fff"/>
+        <path d="M134 110L160 76H202V110Z" fill="#81d4fa"/><path d="M216 76H256C263 76 269 79 274 85L294 110H216Z" fill="#81d4fa"/>
+        <rect x="28" y="140" width="24" height="11" rx="5" fill="#4fc3f7"/><rect x="368" y="140" width="24" height="11" rx="5" fill="#b3e5fc"/>
+        <rect x="28" y="156" width="364" height="8" fill="#1565c0" opacity=".25"/>
+        <circle cx="104" cy="170" r="31" fill="#0a2540"/><circle cx="104" cy="170" r="15" fill="#e3f2fd"/>
+        <circle cx="316" cy="170" r="31" fill="#0a2540"/><circle cx="316" cy="170" r="15" fill="#e3f2fd"/>
+        <path d="M150 20q6 -10 12 0t12 0" stroke="#fff" stroke-width="3" fill="none" opacity=".8"/>
+        <circle cx="190" cy="30" r="5" fill="#fff" opacity=".7"/><circle cx="240" cy="22" r="7" fill="#fff" opacity=".6"/><circle cx="276" cy="38" r="4" fill="#fff" opacity=".8"/>
+      </svg>
+    </div>
+  </div>
+  <svg class="olas" viewBox="0 0 1440 80" preserveAspectRatio="none"><path d="M0 40C240 90 480 0 720 36S1200 84 1440 30V80H0Z" fill="#e3f2fd"/></svg>
+</header>
+
+<section class="ventajas"><div class="wrap grid">
+  <div class="tarjeta ventaja"><span class="ico">📅</span><div><b>Reserva en línea</b><span>Elija día y hora disponibles</span></div></div>
+  <div class="tarjeta ventaja"><span class="ico">🚗</span><div><b>Autos y motos</b><span>Servicios para cada vehículo</span></div></div>
+  <div class="tarjeta ventaja"><span class="ico">🔎</span><div><b>Seguimiento</b><span>Consulte el estado de su turno</span></div></div>
+</div></section>
+
+<section id="servicios"><div class="wrap">
+  <div class="titulo"><small>Lo que hacemos</small><h2>Nuestros servicios</h2><p>Precios claros en guaraníes. Elija el que mejor se adapte a su vehículo.</p></div>
+  <div class="pestanas"><button class="activo" data-t="AUTO">🚗 Autos</button><button data-t="MOTO">🏍️ Motos</button></div>
+  <div class="servicios" id="lista"><p style="text-align:center;grid-column:1/-1">Cargando servicios…</p></div>
+</div></section>
+
+<section style="padding-top:10px"><div class="wrap">
+  <div class="titulo"><small>Así de fácil</small><h2>Reserve en 3 pasos</h2></div>
+  <div class="pasos">
+    <div class="paso"><h3>Elija su servicio</h3><p>Seleccione auto o moto y el lavado que necesita.</p></div>
+    <div class="paso"><h3>Escoja día y hora</h3><p>Solo se muestran los horarios con lugar disponible.</p></div>
+    <div class="paso"><h3>Confirme y listo</h3><p>Recibirá su número de turno para seguir la reserva.</p></div>
+  </div>
+</div></section>
+
+<section id="reservar" style="padding-top:20px"><div class="wrap">
+  <div class="titulo"><small>Agende su turno</small><h2>Reservar lavado</h2></div>
+  <div class="tarjeta" style="max-width:720px;margin:auto">
+    <form id="form" novalidate>
+      <label>Tipo de vehículo</label>
+      <div class="tipo"><button type="button" data-t="AUTO" class="activo">🚗 Auto</button><button type="button" data-t="MOTO">🏍️ Moto</button></div>
+      <label for="servicio">Servicio</label><select id="servicio"></select>
+      <div class="fila">
+        <div><label for="fecha">Fecha</label><input type="date" id="fecha"></div>
+        <div><label for="hora">Hora disponible</label><select id="hora"></select></div>
+      </div>
+      <label for="nombre">Nombre completo</label><input id="nombre" autocomplete="name">
+      <div class="fila">
+        <div><label for="telefono">Teléfono</label><input id="telefono" type="tel" autocomplete="tel"></div>
+        <div><label for="placa">Placa del vehículo</label><input id="placa" maxlength="12" style="text-transform:uppercase"></div>
+      </div>
+      <label for="email">Email (opcional)</label><input id="email" type="email" autocomplete="email">
+      <label for="obs">Observaciones (opcional)</label><textarea id="obs" rows="2"></textarea>
+      <button class="btn btn-azul" id="enviar" type="submit" style="width:100%;margin-top:20px;border-radius:12px">Confirmar reserva</button>
+      <div class="aviso" id="msg" role="status"></div>
+    </form>
+  </div>
+</div></section>
+
+<section id="seguimiento" style="padding-top:20px"><div class="wrap">
+  <div class="titulo"><small>¿Ya reservó?</small><h2>Seguimiento de su reserva</h2><p>Ingrese su número de turno y la placa del vehículo para ver cómo va su lavado.</p></div>
+  <div class="seg">
+    <div class="tarjeta">
+      <form id="formSeg" novalidate>
+        <label for="sCita">Número de turno</label><input id="sCita" inputmode="numeric" placeholder="Ej.: 15">
+        <label for="sPlaca">Placa</label><input id="sPlaca" maxlength="12" style="text-transform:uppercase">
+        <button class="btn btn-azul" type="submit" style="width:100%;margin-top:18px;border-radius:12px">Consultar estado</button>
+      </form>
+    </div>
+    <div class="tarjeta" id="resultado"><p style="color:var(--gr);margin:0">Aquí aparecerá el estado de su reserva.</p></div>
+  </div>
+</div></section>
+
+<section class="contacto" id="contacto"><div class="wrap">
+  <div class="titulo"><small style="color:var(--ce4)">Hablemos</small><h2>Contacto</h2><p>Estamos para ayudarle. Escríbanos o visítenos.</p></div>
+  <div class="contactos" id="contactos"></div>
+  <div style="text-align:center;margin-top:28px"><a id="wa" href="#" class="btn btn-claro" target="_blank" rel="noopener">💬 Escribir por WhatsApp</a></div>
+</div></section>
+
+<footer>© <span id="anio"></span> <span data-nombre>Sosa Car Wash</span> · Todos los derechos reservados</footer>
+
+<script>
+const $ = id => document.getElementById(id);
+const esc = t => String(t ?? "").replace(/[&<>"']/g, c => ({ "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#39;" }[c]));
+const gs = n => "Gs. " + Math.round(Number(n)).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+const hoy = new Date(Date.now() - new Date().getTimezoneOffset() * 60000).toISOString().slice(0, 10);
+const NOMBRES_ESTADO = { PENDIENTE:"Reserva confirmada", EN_PROCESO:"Lavando su vehículo", COMPLETADA:"Servicio finalizado", CANCELADA:"Reserva cancelada" };
+let servicios = [], tipoLista = "AUTO", tipoForm = "AUTO";
+$("anio").textContent = new Date().getFullYear();
+$("fecha").min = $("fecha").value = hoy;
+
+function aviso(el, html, clase) { el.className = "aviso " + clase; el.innerHTML = html; }
+function guardar(clave, valor) { try { localStorage.setItem(clave, valor); } catch (e) {} }
+function leer(clave) { try { return localStorage.getItem(clave) || ""; } catch (e) { return ""; } }
+
+async function cargarNegocio() {
+  try {
+    const n = await (await fetch("/api/negocio")).json();
+    document.title = n.nombre + " · " + n.eslogan;
+    document.querySelectorAll("[data-nombre]").forEach(e => e.textContent = n.nombre);
+    const tel = String(n.telefono).replace(/[^\d+]/g, "");
+    const datos = [["📞","Teléfono",n.telefono,"tel:" + tel],["✉️","Correo",n.email,"mailto:" + n.email],
+                   ["📍","Dirección",n.direccion,""],["🕒","Horario",n.horario,""]];
+    $("contactos").innerHTML = datos.map(([i,t,v,h]) =>
+      `<${h ? 'a href="' + esc(h) + '"' : "div"} class="dato"><span class="ico">${i}</span><small>${t}</small><b>${esc(v)}</b></${h ? "a" : "div"}>`).join("");
+    $("wa").href = "https://wa.me/" + String(n.whatsapp).replace(/\D/g, "") + "?text=" + encodeURIComponent("Hola " + n.nombre + ", quisiera consultar por un servicio.");
+  } catch (e) { $("contactos").innerHTML = ""; }
+}
+
+function pintarServicios() {
+  const lista = servicios.filter(s => s.tipo_vehiculo === tipoLista);
+  $("lista").innerHTML = lista.length ? lista.map(s => `
+    <article class="tarjeta servicio"><span class="ico">${s.tipo_vehiculo === "AUTO" ? "🚗" : "🏍️"}</span>
+      <h3>${esc(s.nombre)}</h3><div class="min">⏱ ${esc(s.duracion_min)} minutos</div>
+      <div class="precio">${gs(s.precio)}</div>
+      <a href="#reservar" class="btn btn-azul" data-id="${esc(s.id)}" data-t="${esc(s.tipo_vehiculo)}">Reservar</a></article>`).join("")
+    : '<p style="text-align:center;grid-column:1/-1">No hay servicios disponibles.</p>';
+}
+
+function pintarSelect() {
+  $("servicio").innerHTML = servicios.filter(s => s.tipo_vehiculo === tipoForm)
+    .map(s => `<option value="${esc(s.id)}">${esc(s.nombre)} — ${gs(s.precio)}</option>`).join("");
+}
+
+function fijarTipo(t) {
+  tipoForm = t;
+  document.querySelectorAll(".tipo button").forEach(b => b.classList.toggle("activo", b.dataset.t === t));
+  pintarSelect();
+}
+
+async function cargarServicios() {
+  try { servicios = await (await fetch("/api/servicios")).json(); }
+  catch (e) { $("lista").innerHTML = '<p style="text-align:center;grid-column:1/-1">No se pudieron cargar los servicios.</p>'; return; }
+  pintarServicios(); pintarSelect();
+}
+
+async function cargarHoras() {
+  const f = $("fecha").value;
+  if (!f) { $("hora").innerHTML = ""; return; }
+  try {
+    const horas = await (await fetch("/api/horarios?fecha=" + encodeURIComponent(f))).json();
+    $("hora").innerHTML = Array.isArray(horas) && horas.length ? horas.map(h => `<option>${esc(h)}</option>`).join("") : "<option value=''>Sin horarios disponibles</option>";
+  } catch (e) { $("hora").innerHTML = "<option value=''>No disponible</option>"; }
+}
+
+document.querySelectorAll(".pestanas button").forEach(b => b.onclick = () => {
+  tipoLista = b.dataset.t;
+  document.querySelectorAll(".pestanas button").forEach(x => x.classList.toggle("activo", x === b));
+  pintarServicios();
+});
+document.querySelectorAll(".tipo button").forEach(b => b.onclick = () => fijarTipo(b.dataset.t));
+$("lista").addEventListener("click", e => {
+  const a = e.target.closest("a[data-id]"); if (!a) return;
+  fijarTipo(a.dataset.t); $("servicio").value = a.dataset.id;
+});
+$("fecha").onchange = cargarHoras;
+
+$("form").onsubmit = async e => {
+  e.preventDefault();
+  const datos = { tipo: tipoForm, servicio_id: $("servicio").value, fecha: $("fecha").value, hora: $("hora").value,
+    nombre: $("nombre").value, telefono: $("telefono").value, placa: $("placa").value, email: $("email").value, observacion: $("obs").value };
+  $("enviar").disabled = true;
+  try {
+    const j = await (await fetch("/api/reservas", { method: "POST", body: JSON.stringify(datos) })).json();
+    if (j.ok) {
+      const placa = $("placa").value.trim().toUpperCase();
+      guardar("scw_cita", String(j.cita)); guardar("scw_placa", placa);
+      aviso($("msg"), `<b>¡Reserva confirmada!</b><div class="turno">Turno #${esc(j.cita)}</div>Guarde este número: junto con la placa <b>${esc(placa)}</b> le permite consultar el estado de su reserva. <br><br><a href="#seguimiento" class="btn btn-azul" id="verSeg" style="padding:8px 18px">Ver seguimiento</a>`, "ok");
+      $("verSeg").onclick = () => consultar(j.cita, placa);
+      $("form").reset(); $("fecha").value = hoy; fijarTipo("AUTO");
+    } else aviso($("msg"), esc(j.error), "error");
+  } catch (err) { aviso($("msg"), "No se pudo conectar con el servidor.", "error"); }
+  $("enviar").disabled = false; cargarHoras();
+};
+
+async function consultar(cita, placa) {
+  $("sCita").value = cita; $("sPlaca").value = placa;
+  try {
+    const r = await fetch("/api/seguimiento?cita=" + encodeURIComponent(cita) + "&placa=" + encodeURIComponent(placa));
+    const d = await r.json();
+    if (!r.ok) { $("resultado").innerHTML = `<div class="aviso error" style="display:block;margin:0">${esc(d.error)}</div>`; return; }
+    const paso = { PENDIENTE:1, EN_PROCESO:2, COMPLETADA:3, CANCELADA:0 }[d.estado];
+    const clase = d.estado === "COMPLETADA" ? "fin" : d.estado === "CANCELADA" ? "canc" : "";
+    const [a, m, dd] = d.fecha.split("-");
+    $("resultado").innerHTML = `<span class="estado ${clase}">${esc(NOMBRES_ESTADO[d.estado])}</span>
+      <div style="margin-top:12px">
+        <div class="linea"><span>Turno</span><b>#${esc(d.id)}</b></div>
+        <div class="linea"><span>Servicio</span><b>${esc(d.servicio)}</b></div>
+        <div class="linea"><span>Fecha y hora</span><b>${dd}/${m}/${a} · ${esc(d.hora)}</b></div>
+        <div class="linea"><span>Placa</span><b>${esc(d.placa)}</b></div>
+        <div class="linea"><span>Precio</span><b>${gs(d.precio)}</b></div></div>
+      ${paso ? `<div class="progreso">
+        <div class="hito ${paso >= 1 ? "on" : ""}"><i>✓</i>Reservado</div>
+        <div class="hito ${paso >= 2 ? "on" : ""}"><i>${paso >= 2 ? "✓" : "2"}</i>En proceso</div>
+        <div class="hito ${paso >= 3 ? "on" : ""}"><i>${paso >= 3 ? "✓" : "3"}</i>Finalizado</div></div>` : ""}`;
+  } catch (e) { $("resultado").innerHTML = '<div class="aviso error" style="display:block;margin:0">No se pudo conectar con el servidor.</div>'; }
+}
+$("formSeg").onsubmit = e => { e.preventDefault(); consultar($("sCita").value.trim(), $("sPlaca").value.trim()); };
+
+$("sCita").value = leer("scw_cita"); $("sPlaca").value = leer("scw_placa");
+cargarNegocio(); cargarServicios(); cargarHoras();
+</script>
+</body>
+</html>

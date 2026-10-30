@@ -1,0 +1,16 @@
+# OPCIONAL: PostgreSQL en un contenedor (si no quiere instalarlo en Windows).
+#   docker compose up -d
+# Luego use la contraseña "postgres" en config.py (o AQUAWASH_DB_PASSWORD).
+services:
+  db:
+    image: postgres:16
+    container_name: aquawash-db
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: aquawash
+    ports:
+      - "5432:5432"
+    volumes:
+      - aquawash_datos:/var/lib/postgresql/data
+volumes:
+  aquawash_datos:

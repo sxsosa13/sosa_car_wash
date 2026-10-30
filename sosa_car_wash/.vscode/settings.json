@@ -1,0 +1,21 @@
+{
+  "python.terminal.activateEnvironment": true,
+  "files.encoding": "utf8",
+  "[sql]": {
+    "editor.defaultFormatter": "mtxr.sqltools"
+  },
+  "sqltools.connections": [
+    {
+      "name": "Sosa Car Wash (PostgreSQL)",
+      "driver": "PostgreSQL",
+      "server": "localhost",
+      "port": 5432,
+      "database": "aquawash",
+      "username": "postgres",
+      "askForPassword": true,
+      "connectionTimeout": 15,
+      "previewLimit": 100
+    }
+  ],
+  "sqltools.autoOpenSessionFiles": false
+}
